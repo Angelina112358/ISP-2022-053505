@@ -1,7 +1,11 @@
+from .parsers_factory.yaml_factory import Yaml
+from .parsers_factory.toml_factory import Toml
 from factory.parsers_factory.json_factory import Json
 
 PARSERS = {
-    "json": Json,
+    'json': Json,
+    'yml': Yaml,
+    'toml': Toml
 }
 
 

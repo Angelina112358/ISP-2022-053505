@@ -1,7 +1,6 @@
 import math
-from serialize.serializer import *
-from parsers.json import *
 from factory.factory import Factory
+from serialize.serializer import *
 
 c = 42
 
@@ -17,14 +16,26 @@ class Person:
         self.age = 19
         self.temp_list = [1, 2, 3]
         self.temp_dict = {'a': 20, 'b': 30}
+        self.exp = 45
 
 
 def main():
-
-    factory = Factory.create_serializer('json')
     pers = Person().__dict__
-    ser = factory.dumps(pers)
-    print(ser)
+    
+    factory = Factory.create_serializer('json')
+    s = factory.dumps(f)
+    a = factory.loads(s)
+    print(a(5))
+
+    factory = Factory.create_serializer('yml')
+    s = factory.dumps(f)
+    a = factory.loads(s)
+    print(a(5))
+
+    factory = Factory.create_serializer('toml')
+    s = factory.dumps(f)
+    a = factory.loads(s)
+    print(a(5))
 
 
 if __name__ == '__main__':
