@@ -31,8 +31,8 @@ def dumps(obj):
                 text = text.rstrip(text[-1])
                 text += '}'
             elif key == 'code':
-                text += "{"
-                text += dumps(key) + ": " + '{' + dumps(val)
+                text += '{'
+                text += dumps(key) + ': ' + '{' + dumps(val)
                 text = text.rstrip(text[-1])
                 text = text.rstrip(text[-1])
                 text += '}'

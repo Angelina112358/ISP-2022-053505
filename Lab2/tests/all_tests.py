@@ -76,6 +76,14 @@ class Test(TestCase):
         os.remove('test2.json')
         self.assertEqual(obj1, obj2)
 
+    def tests_json_loads(self):
+        parser = Factory.create_serializer('json')
+        obj = Obj().__dict__
+        sr = parser.dumps(obj)
+        s1 = parser.loads(sr)
+        s2 = json.loads(sr)
+        self.assertEqual(s1, s2)
+
     def tests_yaml_load(self):
         parser = Factory.create_serializer('yml')
         obj = Obj().__dict__
@@ -102,10 +110,10 @@ class Test(TestCase):
         os.remove('test2.toml')
         self.assertEqual(obj1, obj2)
 
-    def tests_func(self):
+    def test_func(self):
         s = serialize(f)
         foo = deserialize(s)
-        self.assertEqual(foo(2), f(2))
+        self.assertEqual(foo(5), f(5))
 
 
 if __name__ == '__main__':
