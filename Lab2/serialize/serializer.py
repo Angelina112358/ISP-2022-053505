@@ -1,3 +1,5 @@
+import builtins
+import importlib
 import inspect
 import types
 
@@ -21,7 +23,7 @@ def serialize(obj):
         for attr in attrs:
             result[serialize(attr[0])] = serialize(attr[1])
 
-        return {"code": result}
+        return {'code': result}
 
     if isinstance(obj, (int, str, float, bool)):
         return obj
@@ -58,6 +60,13 @@ def deserialize(obj):
             elif key == 'bytes':
                 return bytes.fromhex(value)
             elif key == 'code':
+                co_names = deserialize(value["co_names"])
+                for name in co_names:
+                    if builtins.__dict__.get(name, 42) == 42:
+                        try:
+                            builtins.__dict__[name] = importlib.import_module(name)
+                        except ModuleNotFoundError:
+                            builtins.__dict__[name] = 42
                 return types.CodeType(
                     deserialize(value["co_argcount"]),
                     deserialize(value["co_posonlyargcount"]),
@@ -67,7 +76,7 @@ def deserialize(obj):
                     deserialize(value["co_flags"]),
                     deserialize(value["co_code"]),
                     tuple(deserialize(value["co_consts"])),
-                    tuple(deserialize(value["co_names"])),
+                    tuple(co_names),
                     tuple(deserialize(value["co_varnames"])),
                     deserialize(value["co_filename"]),
                     deserialize(value["co_name"]),
@@ -84,6 +93,12 @@ def deserialize(obj):
         for item in obj:
             temp_list.append(deserialize(item))
         return temp_list
+
+    elif isinstance(obj, tuple):
+        temp_list = []
+        for item in obj:
+            temp_list.append(deserialize(item))
+        return tuple(temp_list)
 
     return temp_dict
 

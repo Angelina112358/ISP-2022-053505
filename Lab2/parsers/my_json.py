@@ -45,7 +45,7 @@ def dumps(obj):
     elif isinstance(obj, str):
         text += '\"' + str(obj) + '\"'
 
-    elif isinstance(obj, int):
+    elif isinstance(obj, (int, float)):
         text += str(obj)
 
     elif isinstance(obj, list):

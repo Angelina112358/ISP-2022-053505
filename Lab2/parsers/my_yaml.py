@@ -24,7 +24,7 @@ def dumps(obj):
 
 def load(fp):
     with open(fp, 'r') as f:
-        t = yaml.safe_load(f)
+        t = yaml.load(f, Loader=yaml.FullLoader)
     return deserialize(t)
 
 
