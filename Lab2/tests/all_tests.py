@@ -13,12 +13,12 @@ class Test(TestCase):
     def tests_json_dumps(self):
         obj = Obj().__dict__
         parser = Factory.create_serializer('json')
-        self.assertEqual(parser.dumps(obj), json.dumps(obj))
+        assertEqual(parser.dumps(obj), json.dumps(obj))
 
     def tests_yaml_dump(self):
         obj = Obj().__dict__
         parser = Factory.create_serializer('yml')
-        parser.dump(obj, 'test1.yml')
+        parser.dump(self.obj, 'test1.yml')
         with open('test2.yml', 'w') as file:
             yaml.dump(obj, file)
 
